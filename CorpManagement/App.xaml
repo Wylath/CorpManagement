@@ -1,0 +1,30 @@
+﻿<Application x:Class="CorpManagement.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:CorpManagement"
+             StartupUri="MainWindow.xaml"
+             xmlns:my="clr-namespace:CorpManagement.ViewModel">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <my:MainCollectionViewModel x:Key="MainCollection"/>
+                    <my:AllUserViewModel x:Key="AllUser"/>
+                    <my:AllVehicleViewModel x:Key="AllVehicle"/>
+                    <my:AllTiresViewModel x:Key="AllTires"/>
+                    <my:AllArticleViewModel x:Key="AllArticle"/>
+                    <my:AllServicingViewModel x:Key="AllServicing"/>
+                    <my:AllProviderViewModel x:Key="AllProvider"/>
+                    <my:AllPoliceLocalityViewModel x:Key="AllPoliceLocality"/>
+                    <my:AllInvoiceViewModel x:Key="AllInvoice"/>
+                    <my:AllInsuranceViewModel x:Key="AllInsurance"/>
+                    <my:AllAttributeArticleViewModel x:Key="AllAttributeArticle"/>
+                </ResourceDictionary>
+                <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

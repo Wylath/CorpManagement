@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34928.147
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorpManagement", "CorpManagement.csproj", "{A2A5F451-3A7D-4C34-BEFD-85670A70D403}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CorpManagementInstaller", "..\CorpManagementInstaller\CorpManagementInstaller.vdproj", "{8DF1ECBB-8DD4-4A0C-8F92-487AB92845F5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A2A5F451-3A7D-4C34-BEFD-85670A70D403}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2A5F451-3A7D-4C34-BEFD-85670A70D403}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2A5F451-3A7D-4C34-BEFD-85670A70D403}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2A5F451-3A7D-4C34-BEFD-85670A70D403}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DF1ECBB-8DD4-4A0C-8F92-487AB92845F5}.Debug|Any CPU.ActiveCfg = Debug
+		{8DF1ECBB-8DD4-4A0C-8F92-487AB92845F5}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C4B3BA42-A251-4211-A9A6-76274DDCCE07}
+	EndGlobalSection
+EndGlobal

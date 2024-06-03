@@ -1,0 +1,283 @@
+﻿<UserControl x:Class="CorpManagement.View.AllInvoice"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CorpManagement.View"
+      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      xmlns:dotNetKitControls="clr-namespace:DotNetKit.Windows.Controls;assembly=DotNetKit.Wpf.AutoCompleteComboBox"
+      mc:Ignorable="d" 
+      d:DesignHeight="1300" d:DesignWidth="1600">
+    <Grid Background="White" DataContext="{Binding Source={StaticResource AllInvoice}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.075*"/>
+            <RowDefinition Height="0.075*"/>
+            <RowDefinition Height="0.8*"/>
+            <RowDefinition Height="0.1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <DataGrid Grid.Column="0" Grid.ColumnSpan="10" Grid.Row="2" Name="DG_Invoice" ItemsSource="{Binding Invoice, Source={StaticResource MainCollection}}" SelectedItem="{Binding SelectedInvoiceItem}"
+                  AutoGenerateColumns="False" SelectionMode="Single" Margin="10,10,10,10" MouseLeftButtonDown="DG_Invoice_MouseLeftButtonDown"
+                  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+            <DataGrid.Columns>
+                <DataGridTextColumn IsReadOnly="True" Header="Assurance" Visibility="{Binding GetVisibilityForInsurance, Source={StaticResource AllInvoice}}" >
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding StringFormat="{}N° d'assurance : {0} ({1})">
+                            <Binding Path="Detail.idinsurance.insurancenumber" />
+                            <Binding Path="Detail.idinsurance.idprovider.name" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Header="Commande" Visibility="{Binding GetVisibilityForOrderArticle, Source={StaticResource AllInvoice}}">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding StringFormat="{}N° de commande : {0} ({1} x {2})">
+                            <Binding Path="Detail.idorderarticle.idorder" />
+                            <Binding Path="Detail.idorderarticle.idarticle.name" />
+                            <Binding Path="Detail.idorderarticle.amount" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Header="Entretien" Visibility="{Binding GetVisibilityForServicing, Source={StaticResource AllInvoice}}">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding StringFormat="{}N° de service : {0} ({1}, {2})">
+                            <Binding Path="Detail.idservicing.id" />
+                            <Binding Path="Detail.idservicing.idvehicle.numberplate" />
+                            <Binding Path="Detail.idservicing.idtypeservicing.name" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Detail.id}" Visibility="Collapsed" />
+                <DataGridTextColumn IsReadOnly="True" Header="Prix" Binding="{Binding Detail.price, StringFormat=N2}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Date facture" Binding="{Binding Detail.dateinvoice, StringFormat=dd-MM-yyyy}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Date paiement" Binding="{Binding Detail.datepaid, StringFormat=dd-MM-yyyy}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Catégorie" Binding="{Binding Detail.idtype.name}" Visibility="Visible" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid Grid.Column="0" Grid.Row="0">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Catégorie" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <ComboBox Text="{Binding SelectedInvoiceTypeItem.Detail.name}" IsEditable="True" StaysOpenOnEdit="True" IsTextSearchEnabled="True" TextSearch.TextPath="Detail.name" Name="LB_InvoiceTypeList" ItemsSource="{Binding InvoiceType, Source={StaticResource MainCollection}}" SelectedItem="{Binding SelectedInvoiceTypeItem}" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="150">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Detail.name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                    <ComboBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Le choix de la catégorie change l'affichage et les options disponibles.</TextBlock>
+                        </ToolTip>
+                    </ComboBox.ToolTip>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="0">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding GetVisibilityForInsurance}">
+                <TextBlock Text="N° d'assurance" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <ComboBox Text="{Binding SelectedInvoiceItem.Detail.idinsurance.insurancenumber, Mode=OneWay}" IsEditable="True" StaysOpenOnEdit="True" IsTextSearchEnabled="True" TextSearch.TextPath="Detail.insurancenumber" Name="LB_InsuranceList" ItemsSource="{Binding Insurance, Source={StaticResource MainCollection}}" SelectedItem="{Binding SelectedInsuranceVehicleItem}" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="150">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Detail.insurancenumber}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="0">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding GetVisibilityForOrderArticle}">
+                <TextBlock Text="N° de commande" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <ComboBox Text="{Binding SelectedInvoiceItem.Detail.idorderarticle.idorder, Mode=OneWay}" IsEditable="True" StaysOpenOnEdit="True" IsTextSearchEnabled="True" TextSearch.TextPath="Detail.idorder" Name="LB_OrderArticleList" ItemsSource="{Binding OrderArticle, Source={StaticResource MainCollection}}" SelectedItem="{Binding SelectedOrderArticleItem}" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="150">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Detail.idorder}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                    <ComboBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Le numéro de commande est disponible dans la liste des commandes de l'onglet Article.</TextBlock>
+                        </ToolTip>
+                    </ComboBox.ToolTip>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="0">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding GetVisibilityForServicing}">
+                <TextBlock Text="Véhicule" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <ComboBox Text="{Binding SelectedInvoiceItem.Detail.idservicing.idvehicle.numberplate, Mode=OneWay}" IsEditable="True" StaysOpenOnEdit="True" IsTextSearchEnabled="True" TextSearch.TextPath="Detail.numberplate" Name="LB_VehicleList" ItemsSource="{Binding Vehicle, Source={StaticResource MainCollection}}" SelectedItem="{Binding SelectedVehiculeItem}" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="150">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Detail.numberplate}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                    <ComboBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Le choix du véhicule va changer la liste de service qui a été effectué sur ce véhicule (N° du service)</TextBlock>
+                        </ToolTip>
+                    </ComboBox.ToolTip>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="2" Grid.Row="0">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding GetVisibilityForServicing}">
+                <TextBlock Text="N° du service" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <ComboBox Text="{Binding SelectedInvoiceItem.Detail.idservicing.id, Mode=OneWay}" IsEditable="True" StaysOpenOnEdit="True" IsTextSearchEnabled="True" TextSearch.TextPath="Detail.id" Name="LB_ServicingList" ItemsSource="{Binding BaseServicing, Source={StaticResource MainCollection}}" SelectedItem="{Binding SelectedServicingItem}" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="150">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Detail.id}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                    <ComboBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Ne peut s'afficher qu'une fois le choix du véhicule fait, si aucun service (onglet service) n'a été effectué sur le véhicule choisi, la liste sera vide.<LineBreak/>
+                                Le numéro du service est disponible dans la liste des services dans l'onglet Service.
+                            </TextBlock>
+                        </ToolTip>
+                    </ComboBox.ToolTip>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Description" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <TextBox Name="TextBox_description" Text="{Binding SelectedDescriptionItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinWidth="300" MinHeight="100">
+                    <TextBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Optionnel</TextBlock>
+                        </ToolTip>
+                    </TextBox.ToolTip>
+                </TextBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="0" Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Prix" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <TextBox Name="TextBox_Price" Text="{Binding SelectedPriceItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat=N2}" MinWidth="120">
+                    <TextBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Le prix est calculé de façon automatique par rapport au prix donné dans l'onglet service, article ou assurance.<LineBreak/>
+                                Le prix pour les commandes sera multiplié par le nombre d'articles.<LineBreak/>
+                                Le prix peut être modifié si besoin.</TextBlock>
+                        </ToolTip>
+                    </TextBox.ToolTip>
+                </TextBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Date de la facture" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <DatePicker SelectedDate="{Binding SelectedDateInvoiceItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <DatePicker.Resources>
+                        <Style TargetType="{x:Type DatePickerTextBox}">
+                            <Setter Property="Control.Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <TextBox x:Name="TxtBox_DateInvoiceDate" VerticalContentAlignment="Center" VerticalAlignment="Stretch" Margin="-1,-1, 0, -2" Text="{Binding SelectedDateInvoiceItem, StringFormat=d, ConverterCulture='fr-FR'}" MinWidth="80" />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DatePicker.Resources>
+                </DatePicker>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="2" Grid.Row="1">
+            <CheckBox Command="{Binding DisplayDatePaid}" IsChecked="{Binding SelectedStatusInvoiceItem}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock FlowDirection="RightToLeft" Text="Payé :" />
+                <CheckBox.ToolTip>
+                    <ToolTip>
+                        <TextBlock>Cocher l'option pour afficher la date du paiement de la facture.</TextBlock>
+                    </ToolTip>
+                </CheckBox.ToolTip>
+            </CheckBox>
+        </Grid>
+        <Grid Grid.Column="3" Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding GetVisibilityForDatePaid}">
+                <TextBlock Text="Date du paiement" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <DatePicker SelectedDate="{Binding SelectedDatePaidItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <DatePicker.Resources>
+                        <Style TargetType="{x:Type DatePickerTextBox}">
+                            <Setter Property="Control.Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <TextBox x:Name="TxtBox_DatePaidDate" VerticalContentAlignment="Center" VerticalAlignment="Stretch" Margin="-1,-1, 0, -2" Text="{Binding SelectedDatePaidItem, StringFormat=d, ConverterCulture='fr-FR'}" MinWidth="80" />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DatePicker.Resources>
+                </DatePicker>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3">
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0">
+                <TextBlock Name="TextBox_messagestatusDB" Text="{Binding MessageStatusRequestToDB}" FontSize="14" Background="Green" Foreground="White"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="7" Grid.Row="3" Width="120" Height="50">
+            <Button Name="Bt_InsertInvoice" Content="Ajouter" Command="{Binding InsertInvoice}"/>
+        </Grid>
+        <Grid Grid.Column="8" Grid.Row="3" Width="120" Height="50">
+            <Button Name="Bt_UpdateInvoice" Content="Enregistrer" Command="{Binding UpdateInvoice}"/>
+        </Grid>
+        <Grid Grid.Column="9" Grid.Row="3" Width="120" Height="50">
+            <Button Name="Bt_DeleteInvoice" Content="Supprimer" Command="{Binding DeleteInvoice}"/>
+        </Grid>
+        <Grid Grid.Column="8" Grid.Row="1" Width="120" Height="50">
+            <Button Name="Bt_InvoiceFilter" Content="Filtrer" Command="{Binding InvoiceFilter}" MinHeight="40" VerticalAlignment="Center"/>
+        </Grid>
+        <Grid Grid.Column="9" Grid.Row="1" Width="120" Height="50">
+            <Button Name="Bt_ResetInvoiceFilter" Content="Rafraîchir" Command="{Binding ResetInvoiceFilter}" MinHeight="40" VerticalAlignment="Center"/>
+        </Grid>
+        <Grid Grid.Column="8" Grid.Row="0" Width="150" Height="50">
+            <Button Name="Bt_JoinFiles" Content="Joindre fichier" Command="{Binding JoinFilesToInvoice}" MinHeight="40" VerticalAlignment="Center"/>
+        </Grid>
+        <Grid Grid.Column="9" Grid.Row="0" Width="150" Height="50">
+            <Button Name="Bt_LookFiles" Content="Voir les fichiers" Command="{Binding DisplayFilesInvoice}" MinHeight="40" VerticalAlignment="Center"/>
+        </Grid>
+    </Grid>
+</UserControl>

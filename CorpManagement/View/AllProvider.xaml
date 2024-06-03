@@ -1,0 +1,182 @@
+﻿<UserControl x:Class="CorpManagement.View.AllProvider"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CorpManagement.View"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:dotNetKitControls="clr-namespace:DotNetKit.Windows.Controls;assembly=DotNetKit.Wpf.AutoCompleteComboBox"
+        mc:Ignorable="d"
+        d:DesignHeight="1300" d:DesignWidth="1600">
+    <Grid Background="White" DataContext="{Binding Source={StaticResource AllProvider}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.075*"/>
+            <RowDefinition Height="0.075*"/>
+            <RowDefinition Height="0.7*"/>
+            <RowDefinition Height="0.05*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <DataGrid Grid.Column="0" Grid.ColumnSpan="10" Grid.Row="2" Name="DG_Provider" ItemsSource="{Binding Provider, Source={StaticResource MainCollection}}" SelectedItem="{Binding SelectedProviderItem}"
+                  AutoGenerateColumns="False" SelectionMode="Single" Margin="10,10,10,10" MouseLeftButtonDown="DG_Provider_MouseLeftButtonDown"
+                  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+            <DataGrid.Columns>
+                <DataGridTextColumn IsReadOnly="True" Header="Nom" Binding="{Binding Detail.name}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Detail.id}" Visibility="Collapsed" />
+                <DataGridTextColumn IsReadOnly="True" Header="Téléphone" Binding="{Binding Detail.phone}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Mail" Binding="{Binding Detail.mail}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Numéro" Binding="{Binding Detail.housenumber}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Rue" Binding="{Binding Detail.street}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Code postal" Binding="{Binding Detail.postalcode}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Ville" Binding="{Binding Detail.town}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Catégorie" Binding="{Binding Detail.idtype.name}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Description" Binding="{Binding Detail.description}" Visibility="Visible" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid Grid.Column="0" Grid.Row="0" >
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
+                <TextBlock Text="Nom" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <ComboBox Text="{Binding SelectedNameItem}" IsEditable="True" StaysOpenOnEdit="True" IsTextSearchEnabled="True" TextSearch.TextPath="Detail.name" Name="LB_NameList" ItemsSource="{Binding Provider, Source={StaticResource MainCollection}}" SelectedValue="{Binding SelectedProviderItem, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" SelectedValuePath="{Binding Detail.name}" DisplayMemberPath="Detail.name" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="150">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="0">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Téléphone" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <TextBox Name="TextBox_Phone" Text="{Binding SelectedPhoneItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinWidth="150" BorderBrush="LightGray">
+                    <TextBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Optionnel (0)</TextBlock>
+                        </ToolTip>
+                    </TextBox.ToolTip>
+                </TextBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="2" Grid.Row="0">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Mail" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <TextBox Name="TextBox_Mail" Text="{Binding SelectedMailItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinWidth="150" BorderBrush="LightGray">
+                    <TextBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Optionnel</TextBlock>
+                        </ToolTip>
+                    </TextBox.ToolTip>
+                </TextBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="0" Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Numéro" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <TextBox Name="TextBox_HouseNumber" Text="{Binding SelectedHouseNumberItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinWidth="150" BorderBrush="LightGray">
+                    <TextBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Optionnel</TextBlock>
+                        </ToolTip>
+                    </TextBox.ToolTip>
+                </TextBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Rue" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <TextBox Name="TextBox_Street" Text="{Binding SelectedStreetItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinWidth="150" BorderBrush="LightGray">
+                    <TextBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Optionnel</TextBlock>
+                        </ToolTip>
+                    </TextBox.ToolTip>
+                </TextBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="2" Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Code postal" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <TextBox Name="TextBox_PostalCode" Text="{Binding SelectedPostalCodeItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinWidth="150" BorderBrush="LightGray">
+                    <TextBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Optionnel</TextBlock>
+                        </ToolTip>
+                    </TextBox.ToolTip>
+                </TextBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="3" Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Ville" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <TextBox Name="TextBox_Town" Text="{Binding SelectedTownItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinWidth="150" BorderBrush="LightGray">
+                    <TextBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Optionnel</TextBlock>
+                        </ToolTip>
+                    </TextBox.ToolTip>
+                </TextBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="3" Grid.Row="0" >
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
+                <TextBlock Text="Catégorie" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <ComboBox Text="{Binding SelectedProviderItem.Detail.idtype.name, Mode=OneWay}" IsEditable="True" StaysOpenOnEdit="True" IsTextSearchEnabled="True" TextSearch.TextPath="Detail.name" Name="LB_ProviderTypeList" ItemsSource="{Binding ProviderType, Source={StaticResource MainCollection}}" SelectedItem="{Binding SelectedProviderTypeItem}" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="150">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Detail.name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Description" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <TextBox Name="TextBox_description" Text="{Binding SelectedDescriptionItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinWidth="300" MinHeight="120">
+                    <TextBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Optionnel</TextBlock>
+                        </ToolTip>
+                    </TextBox.ToolTip>
+                </TextBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3">
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0">
+                <TextBlock Name="TextBox_messagestatusDB" Text="{Binding MessageStatusRequestToDB}" FontSize="14" Background="Green" Foreground="White"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="7" Grid.Row="3" Width="120" Height="50">
+            <Button Name="Bt_InsertProvider" Content="Ajouter" Command="{Binding AddProvider}"/>
+        </Grid>
+        <Grid Grid.Column="8" Grid.Row="3" Width="120" Height="50">
+            <Button Name="Bt_UpdateProvider" Content="Enregistrer" Command="{Binding UpdateProvider}"/>
+        </Grid>
+        <Grid Grid.Column="9" Grid.Row="3" Width="120" Height="50">
+            <Button Name="Bt_DeleteProvider" Content="Supprimer" Command="{Binding DeleteProvider}"/>
+        </Grid>
+        <Grid Grid.Column="8" Grid.Row="1" Width="120" Height="50">
+            <Button Name="Bt_ProviderFilter" Content="Filtrer" Command="{Binding ProviderFilter}" MinHeight="40" VerticalAlignment="Center"/>
+        </Grid>
+        <Grid Grid.Column="9" Grid.Row="1" Width="120" Height="50">
+            <Button Name="Bt_ResetProviderFilter" Content="Rafraîchir" Command="{Binding ResetProviderFilter}" MinHeight="40" VerticalAlignment="Center"/>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,45 @@
+﻿<Controls:MetroWindow x:Class="CorpManagement.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CorpManagement"
+        mc:Ignorable="d"
+        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+        Title="ZP Gestion" Height="1450" Width="1800" WindowStartupLocation="CenterScreen"
+        DataContext="{Binding Source={StaticResource AllUser}}">
+    <Window.InputBindings>
+        <KeyBinding Key="F1" Command="{Binding OpenUserList}" />
+        <KeyBinding Key="F2" Command="{Binding OpenPoliceLocalityList}" />
+    </Window.InputBindings>
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Close" Executed="CloseCommandHandler" CanExecute="CanExecuteHandler" />
+    </Window.CommandBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.05*"/>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="0.5*" />
+            <ColumnDefinition Width="0.2*" />
+            <ColumnDefinition Width="0.5*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid DataContext="{Binding SelectedUserItem}" Grid.Column="1" Grid.Row="1">
+            <TextBlock Text="{Binding Detail.matricule}"/>
+        </Grid>
+        <Grid Grid.Column="1" Grid.ColumnSpan="3"  Grid.Row="1">
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0">
+                <TextBlock Name="TextBox_messagestatusUser" Text="{Binding MessageStatusUser}" FontSize="14" Background="Red" Foreground="White"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="3" Grid.Row="3">
+            <Button Content="Connexion" Command="{Binding OpenServicing}"/>
+        </Grid>
+    </Grid>
+</Controls:MetroWindow>

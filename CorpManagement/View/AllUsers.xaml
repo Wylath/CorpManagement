@@ -1,0 +1,183 @@
+﻿<Controls:MetroWindow x:Class="CorpManagement.View.AllUsers"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CorpManagement.View"
+      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      xmlns:dotNetKitControls="clr-namespace:DotNetKit.Windows.Controls;assembly=DotNetKit.Wpf.AutoCompleteComboBox"
+      mc:Ignorable="d" 
+      Title="Ensemble du personnel" Height="800" Width="1280" WindowStartupLocation="CenterScreen">
+    <Grid DataContext="{Binding Source={StaticResource AllUser}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.075*"/>
+            <RowDefinition Height="0.075*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.02*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.1*"/>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="0.1*"/>
+        </Grid.ColumnDefinitions>
+        <Menu Grid.Column="1" Grid.Row="0">
+            <MenuItem Header="_Edition" Controls:HeaderedControlHelper.HeaderFontSize="12">
+                <MenuItem Command="ApplicationCommands.Copy"/>
+                <MenuItem Command="ApplicationCommands.Cut"/>
+                <MenuItem Command="ApplicationCommands.Paste"/>
+            </MenuItem>
+        </Menu>
+        <DataGrid Grid.Column="1" Grid.ColumnSpan="10" Grid.Row="2" Name="DG_Users" ItemsSource="{Binding User, Source={StaticResource MainCollection}}" SelectedItem="{Binding SelectedUserItem}"
+                  AutoGenerateColumns="False" SelectionMode="Single" Margin="10,10,10,10" MouseLeftButtonDown="DG_Users_MouseLeftButtonDown"
+                  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+            <DataGrid.Columns>
+                <DataGridTextColumn IsReadOnly="True" Header="UserId" Binding="{Binding Detail.id}" Visibility="Hidden" />
+                <DataGridTextColumn IsReadOnly="True" Header="Matricule" Binding="{Binding Detail.matricule}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Prénom" Binding="{Binding Detail.firstname}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Nom" Binding="{Binding Detail.lastname}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Crédit" Binding="{Binding Detail.pointarticle}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Points annuels" Binding="{Binding Detail.gradepoint.totalpoint}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Niveau d'accès" Binding="{Binding Detail.idprofilelevel.name}" Visibility="Visible" />
+                <DataGridTemplateColumn IsReadOnly="True" Header="Actif" Visibility="Visible">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Detail.status, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Command="{Binding Path=DataContext.ChangeStatusUserInDG, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn IsReadOnly="True" Header="Dernière mise à jour des crédits" Binding="{Binding Detail.lastupdatepoint, StringFormat=dd-MM-yyyy}" Visibility="Visible" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Matricule" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <ComboBox Text="{Binding SelectedMatriculeItem}" IsEditable="True" StaysOpenOnEdit="True" IsTextSearchEnabled="True" TextSearch.TextPath="Detail.matricule" Name="LB_MatriculeList" ItemsSource="{Binding User, Source={StaticResource MainCollection}}" SelectedValue="{Binding SelectedUserItem, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" SelectedValuePath="{Binding Detail.matricule}" DisplayMemberPath="Detail.matricule" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="120">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="2" Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Prénom" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <ComboBox Text="{Binding SelectedFirstNameItem}" IsEditable="True" StaysOpenOnEdit="True" IsTextSearchEnabled="True" TextSearch.TextPath="Detail.firstname" Name="LB_FirstNameList" ItemsSource="{Binding User, Source={StaticResource MainCollection}}" SelectedValue="{Binding SelectedUserItem, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" SelectedValuePath="{Binding Detail.firstname}" DisplayMemberPath="Detail.firstname" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="120">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="3" Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Nom" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <ComboBox Text="{Binding SelectedLastNameItem}" IsEditable="True" StaysOpenOnEdit="True" IsTextSearchEnabled="True" TextSearch.TextPath="Detail.lastname" Name="LB_LastNameList" ItemsSource="{Binding User, Source={StaticResource MainCollection}}" SelectedValue="{Binding SelectedUserItem, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" SelectedValuePath="{Binding Detail.lastname}" DisplayMemberPath="Detail.lastname" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="120">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="4" Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Crédit" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <TextBox Name="TextBox_CreditArticle" Text="{Binding SelectedCreditArticleItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinWidth="120">
+                    <TextBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Crédit actuel de l'utilisateur pour obtenir des articles.</TextBlock>
+                        </ToolTip>
+                    </TextBox.ToolTip>
+                </TextBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="5" Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Points annuels" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <ComboBox Text="{Binding SelectedUserItem.Detail.gradepoint.totalpoint, Mode=OneWay}" IsEditable="True" StaysOpenOnEdit="True" IsTextSearchEnabled="True" TextSearch.TextPath="Detail.totalpoint" Name="LB_GradePointList" ItemsSource="{Binding GradePoint, Source={StaticResource MainCollection}}" SelectedItem="{Binding SelectedGradePointItem}" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="120">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Detail.totalpoint}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="6" Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Niveau d'accès" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <ComboBox Text="{Binding SelectedUserItem.Detail.idprofilelevel.name, Mode=OneWay}" IsEditable="True" StaysOpenOnEdit="True" IsTextSearchEnabled="True" TextSearch.TextPath="Detail.name" Name="LB_ProfileLvlList" ItemsSource="{Binding ProfileLevel, Source={StaticResource MainCollection}}" SelectedItem="{Binding SelectedProfileLevelItem}" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="120">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Detail.name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                    <ComboBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Le niveau d'accès est le suivant :<LineBreak/>Admin : pour avoir tous les accès.<LineBreak/>All= : pour l'ensemble des fenêtres.<LineBreak/>
+                                Le nom de la fenêtre pour donner un accès à une fenêtre en particulier, par ex : Vehicule= (ne s'applique pas si le profile contient le mot All ou Admin).<LineBreak/>
+                                V : accès en vue sur la fenêtre. A : droit d'ajouter. M : droit de modifier/enregistrer. S : droit de supprimer.</TextBlock>
+                        </ToolTip>
+                    </ComboBox.ToolTip>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="7" Grid.Row="1">
+            <CheckBox Command="{Binding ChangeStatusUser}" IsChecked="{Binding SelectedStatusUserItem}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock FlowDirection="LeftToRight" Text="Actif :" />
+            </CheckBox>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3">
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0">
+                <TextBlock Name="TextBox_messagestatusDB" Text="{Binding MessageStatusRequestToDB}" FontSize="14" Background="Green" Foreground="White"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="7" Grid.Row="3" Width="100" Height="50">
+            <Button Name="Bt_InsertUser" Content="Ajouter" Command="{Binding AddUser}"/>
+        </Grid>
+        <Grid Grid.Column="8" Grid.Row="3" Width="100" Height="50">
+            <Button Name="Bt_UpdateUser" Content="Enregistrer" Command="{Binding UpdateUser}"/>
+        </Grid>
+        <Grid Grid.Column="9" Grid.Row="3" Width="100" Height="50">
+            <Button Name="Bt_DeleteUser" Content="Supprimer" Command="{Binding DeleteUser}"/>
+        </Grid>
+        <Grid Grid.Column="10" Grid.Row="3" Width="100" Height="50">
+            <Button Name="Bt_CancelUser" Content="Quitter" Command="{Binding CloseWindowUser}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+        </Grid>
+        <Grid Grid.Column="9" Grid.Row="1" Width="120" Height="50">
+            <Button Name="Bt_UserFilter" Content="Filtrer" Command="{Binding UserFilter}" MinHeight="40" VerticalAlignment="Center"/>
+        </Grid>
+        <Grid Grid.Column="10" Grid.Row="1" Width="120" Height="50">
+            <Button Name="Bt_ResetUserFilter" Content="Rafraîchir" Command="{Binding ResetUserFilter}" MinHeight="40" VerticalAlignment="Center"/>
+        </Grid>
+    </Grid>
+</Controls:MetroWindow>

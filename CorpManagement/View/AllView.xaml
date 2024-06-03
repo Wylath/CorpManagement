@@ -1,0 +1,92 @@
+﻿<Page x:Class="CorpManagement.View.AllView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CorpManagement.View"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        mc:Ignorable="d"
+        Title="ZP Gestion" Height="1450" Width="1650">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
+                <!-- Accent and AppTheme setting -->
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="{x:Type ComboBox}">
+                <Style.Triggers>
+                    <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                        <Setter Property="IsDropDownOpen" Value="true" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid Focusable="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.075*"/>
+            <RowDefinition Height="0.05*"/>
+            <RowDefinition Height="0.075*"/>
+            <RowDefinition Height="0.075*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.02*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.1*"/>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="0.1*"/>
+        </Grid.ColumnDefinitions>
+        <Menu Grid.Column="1" Grid.Row="0" Margin="0,0,0,20">
+            <MenuItem Header="_Fichier" Controls:HeaderedControlHelper.HeaderFontSize="12">
+                <MenuItem InputGestureText="F1" Command="{Binding OpenUserList}" Header="Utilisateurs" Visibility="{Binding GetVisibilityForUser}"/>
+                <MenuItem InputGestureText="F2" Command="{Binding OpenPoliceLocalityList}" Header="Localité police"  Visibility="{Binding GetVisibilityForPoliceLocality}"/>
+                <MenuItem Command="ApplicationCommands.Close"/>
+            </MenuItem>
+            <MenuItem Header="_Edition" Controls:HeaderedControlHelper.HeaderFontSize="12">
+                <MenuItem Command="ApplicationCommands.Copy"/>
+                <MenuItem Command="ApplicationCommands.Cut"/>
+                <MenuItem Command="ApplicationCommands.Paste"/>
+            </MenuItem>
+        </Menu>
+        <TabControl Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="10" Grid.RowSpan="6">
+            <TabItem Header="Service" Controls:HeaderedControlHelper.HeaderFontSize="16" Visibility="{Binding GetVisibilityForService}">
+                <local:AllServicing />
+            </TabItem>
+            <TabItem Header="Véhicule" Controls:HeaderedControlHelper.HeaderFontSize="16" Visibility="{Binding GetVisibilityForVehicle}">
+                <local:AllVehicle />
+            </TabItem>
+            <TabItem Header="Pneu" Controls:HeaderedControlHelper.HeaderFontSize="16" Visibility="{Binding GetVisibilityForTires}">
+                <local:AllTires />
+            </TabItem>
+            <TabItem Header="Article" Controls:HeaderedControlHelper.HeaderFontSize="16" Visibility="{Binding GetVisibilityForArticle}">
+                <local:AllArticle />
+            </TabItem>
+            <TabItem Header="Facture" Controls:HeaderedControlHelper.HeaderFontSize="16" Visibility="{Binding GetVisibilityForInvoice}">
+                <local:AllInvoice />
+            </TabItem>
+            <TabItem Header="Compagnie" Controls:HeaderedControlHelper.HeaderFontSize="16" Visibility="{Binding GetVisibilityForProvider}">
+                <local:AllProvider />
+            </TabItem>
+            <TabItem Header="Assurance" Controls:HeaderedControlHelper.HeaderFontSize="16" Visibility="{Binding GetVisibilityForInsurance}">
+                <local:AllInsurance />
+            </TabItem>
+            <TabItem Header="Attribution" Controls:HeaderedControlHelper.HeaderFontSize="16" Visibility="{Binding GetVisibilityForAttributeArticle}">
+                <local:AllAttributeArticle />
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Page>

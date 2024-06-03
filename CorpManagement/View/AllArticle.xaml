@@ -1,0 +1,414 @@
+﻿<UserControl x:Class="CorpManagement.View.AllArticle"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CorpManagement.View"
+      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      xmlns:dotNetKitControls="clr-namespace:DotNetKit.Windows.Controls;assembly=DotNetKit.Wpf.AutoCompleteComboBox"
+      mc:Ignorable="d" d:DesignHeight="1300" d:DesignWidth="1600">
+    <Grid Background="White" DataContext="{Binding Source={StaticResource AllArticle}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.075*"/>
+            <RowDefinition Height="0.075*"/>
+            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="0.075*"/>
+            <RowDefinition Height="0.075*"/>
+            <RowDefinition Height="0.075*"/>
+            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="0.075*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <DataGrid Grid.Column="0" Grid.ColumnSpan="10" Grid.Row="2" Name="DG_Article" ItemsSource="{Binding Article, Source={StaticResource MainCollection}}" SelectedItem="{Binding SelectedArticleItem}"
+                  AutoGenerateColumns="False" SelectionMode="Single" Margin="10,10,10,10" MouseLeftButtonDown="DG_Article_MouseLeftButtonDown"
+                  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+            <DataGrid.Columns>
+                <DataGridTextColumn IsReadOnly="True" Header="Nom" Binding="{Binding Detail.name}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Detail.id}" Visibility="Collapsed" />
+                <DataGridTextColumn IsReadOnly="True" Header="Référence" Binding="{Binding Detail.refArticle}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Fournisseur" Binding="{Binding Detail.idprovider.name}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Prix" Binding="{Binding Detail.price, StringFormat=N2}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Quantité" Binding="{Binding Detail.amount}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Quantité max" Binding="{Binding Detail.maxquantity}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Catégorie" Binding="{Binding Detail.idtype.name}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Credit" Binding="{Binding Detail.credit}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Description" Binding="{Binding Detail.description}" Visibility="Visible" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid Grid.Column="0" Grid.ColumnSpan="10" Grid.Row="6" Name="DG_OrderArticle" ItemsSource="{Binding OrderArticle, Source={StaticResource MainCollection}}" SelectedItem="{Binding SelectedOrderArticleItem}" 
+                  AutoGenerateColumns="False" SelectionMode="Single" Margin="10,10,10,10" MouseLeftButtonDown="DG_OrderArticle_MouseLeftButtonDown"
+                  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+            <DataGrid.Columns>
+                <DataGridTextColumn IsReadOnly="True" Header="N°" Binding="{Binding Detail.idorder}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Article" Binding="{Binding Detail.idarticle.name}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Demandeur" Visibility="Visible">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding StringFormat="{}{0} {1}">
+                            <Binding Path="Detail.iduser.firstname" />
+                            <Binding Path="Detail.iduser.lastname" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Header="Quantité" Binding="{Binding Detail.amount}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Date de la commande" Binding="{Binding Detail.orderdate, StringFormat=dd-MM-yyyy}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Date de réception" Binding="{Binding Detail.datereceived, StringFormat=dd-MM-yyyy}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Statut" Binding="{Binding Detail.status.name}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Taille" Binding="{Binding Detail.sizeclothing.size}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Description" Binding="{Binding Detail.description}" Visibility="Visible" />
+                <DataGridTextColumn IsReadOnly="True" Header="Catégorie" Binding="{Binding Detail.idarticle.idtype.name}" Visibility="Visible" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid Grid.Column="0" Grid.Row="0">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Nom" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <ComboBox Text="{Binding SelectedArticleNameItem}" IsEditable="True" StaysOpenOnEdit="True" IsTextSearchEnabled="True" TextSearch.TextPath="Detail.name" Name="LB_ArticleNameList" ItemsSource="{Binding Article, Source={StaticResource MainCollection}}" SelectedValue="{Binding SelectedArticleItem, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" SelectedValuePath="{Binding Detail.name}" DisplayMemberPath="Detail.name" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="150">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="0">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Référence" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <ComboBox Text="{Binding SelectedRefArticleItem}" IsEditable="True" StaysOpenOnEdit="True" IsTextSearchEnabled="True" TextSearch.TextPath="Detail.refArticle" Name="LB_RefArticleList" ItemsSource="{Binding Article, Source={StaticResource MainCollection}}" SelectedValue="{Binding SelectedArticleItem, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" SelectedValuePath="{Binding Detail.refArticle}" DisplayMemberPath="Detail.refArticle" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="150">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                    <ComboBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Optionnel</TextBlock>
+                        </ToolTip>
+                    </ComboBox.ToolTip>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="2" Grid.Row="0">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Fournisseur" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <ComboBox Text="{Binding SelectedArticleItem.Detail.idprovider.name, Mode=OneWay}" IsEditable="True" StaysOpenOnEdit="True" IsTextSearchEnabled="True" TextSearch.TextPath="Detail.name" Name="LB_IdProviderList" ItemsSource="{Binding Provider, Source={StaticResource MainCollection}}" SelectedItem="{Binding SelectedIdProviderItem}" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="150">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Detail.name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="3" Grid.Row="0">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Catégorie" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <ComboBox Text="{Binding SelectedArticleItem.Detail.idtype.name, Mode=OneWay}" IsEditable="True" StaysOpenOnEdit="True" IsTextSearchEnabled="True" TextSearch.TextPath="Detail.name" Name="LB_IdTypeList" ItemsSource="{Binding ArticleType, Source={StaticResource MainCollection}}" SelectedItem="{Binding SelectedIdTypeItem}" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="150">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Detail.name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="4" Grid.Row="4">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Taille" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <ComboBox Text="{Binding SelectedOrderArticleItem.Detail.sizeclothing.size, Mode=OneWay}" IsEditable="True" StaysOpenOnEdit="True" IsTextSearchEnabled="True" TextSearch.TextPath="Detail.size" Name="LB_SizeClothingList" ItemsSource="{Binding SizeClothing, Source={StaticResource MainCollection}}" SelectedItem="{Binding SelectedSizeClothingItem}" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="150">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Detail.size}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                    <ComboBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Optionnel : Taille vêtement et chaussure</TextBlock>
+                        </ToolTip>
+                    </ComboBox.ToolTip>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="0" Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Prix" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <TextBox Name="TextBox_PriceArticle" Text="{Binding SelectedPriceItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat=N2}" MinWidth="150">
+                    <TextBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Prix/u</TextBlock>
+                        </ToolTip>
+                    </TextBox.ToolTip>
+                </TextBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Quantité" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <TextBox Name="TextBox_AmountArticle" Text="{Binding SelectedAmountItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinWidth="150">
+                    <TextBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Quantité restante</TextBlock>
+                        </ToolTip>
+                    </TextBox.ToolTip>
+                </TextBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="2" Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Quantité max" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <TextBox Name="TextBox_MaxQuantityArticle" Text="{Binding SelectedMaxQuantityItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinWidth="150">
+                    <TextBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Optionnel : Quantité maximum à avoir</TextBlock>
+                        </ToolTip>
+                    </TextBox.ToolTip>
+                </TextBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="3" Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Crédit" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <TextBox Name="TextBox_CreditArticle" Text="{Binding SelectedCreditItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinWidth="150">
+                    <TextBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Optionnel : nombre de crédit requis par l'utilisateur pour commander l'article.</TextBlock>
+                        </ToolTip>
+                    </TextBox.ToolTip>
+                </TextBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Description" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <TextBox Name="TextBox_description" Text="{Binding SelectedDescriptionItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinWidth="300" MinHeight="80">
+                    <TextBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Optionnel</TextBlock>
+                        </ToolTip>
+                    </TextBox.ToolTip>
+                </TextBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="7" Grid.Row="3" Width="120" Height="50">
+            <Button Name="Bt_InsertArticle" Content="Ajouter" Command="{Binding AddArticle}"/>
+        </Grid>
+        <Grid Grid.Column="8" Grid.Row="3" Width="120" Height="50">
+            <Button Name="Bt_UpdateArticle" Content="Enregistrer" Command="{Binding UpdateArticle}"/>
+        </Grid>
+        <Grid Grid.Column="9" Grid.Row="3" Width="120" Height="50">
+            <Button Name="Bt_DeleteArticle" Content="Supprimer" Command="{Binding DeleteArticle}"/>
+        </Grid>
+        <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="10" VerticalAlignment="Top">
+            <Rectangle Fill="DodgerBlue" Height="4"/>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="4">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Article" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <ComboBox Text="{Binding SelectedOrderArticleItem.Detail.idarticle.name, Mode=OneWay}" IsEditable="True" StaysOpenOnEdit="True" IsTextSearchEnabled="True" TextSearch.TextPath="Detail.name" Name="LB_ArticleList" ItemsSource="{Binding ArticleForOrder, Source={StaticResource MainCollection}}" SelectedItem="{Binding SelectedArticleForOrderItem}" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="150">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Detail.name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="2" Grid.Row="4">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Demandeur" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <ComboBox Text="{Binding SelectedOrderArticleItem.Detail.iduser.matricule, Mode=OneWay}" IsEditable="True" StaysOpenOnEdit="True" IsTextSearchEnabled="True" TextSearch.TextPath="Detail.matricule" Name="LB_UserList" ItemsSource="{Binding User, Source={StaticResource MainCollection}}" SelectedItem="{Binding SelectedUserForOrderItem}" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="150">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Detail.matricule}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="3" Grid.Row="4">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Quantité" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <TextBox Name="TextBox_AmountOrderArticle" Text="{Binding SelectedOrderAmountItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinWidth="150">
+                    <TextBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock></TextBlock>
+                        </ToolTip>
+                    </TextBox.ToolTip>
+                </TextBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="5">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Date de la commande" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <DatePicker SelectedDate="{Binding SelectedOrderDateItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="100">
+                    <DatePicker.Resources>
+                        <Style TargetType="{x:Type DatePickerTextBox}">
+                            <Setter Property="Control.Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <TextBox x:Name="TxtBox_OrderDate" VerticalContentAlignment="Center" VerticalAlignment="Stretch" Margin="-1,-1, 0, -2" Text="{Binding SelectedOrderDateItem, StringFormat=d, ConverterCulture='fr-FR'}" MinWidth="80" />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DatePicker.Resources>
+                </DatePicker>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="2" Grid.Row="5">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Date de réception" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <DatePicker SelectedDate="{Binding SelectedDateReceivedItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="100">
+                    <DatePicker.Resources>
+                        <Style TargetType="{x:Type DatePickerTextBox}">
+                            <Setter Property="Control.Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <TextBox x:Name="TxtBox_DateReceived" VerticalContentAlignment="Center" VerticalAlignment="Stretch" Margin="-1,-1, 0, -2" Text="{Binding SelectedDateReceivedItem, StringFormat=d, ConverterCulture='fr-FR'}" MinWidth="80" />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DatePicker.Resources>
+                </DatePicker>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="0" Grid.Row="5">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Statut" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <ComboBox Text="{Binding SelectedOrderArticleItem.Detail.status.name, Mode=OneWay}" IsEditable="True" StaysOpenOnEdit="True" IsTextSearchEnabled="True" TextSearch.TextPath="Detail.name" Name="LB_StatusList" ItemsSource="{Binding OrderStatus, Source={StaticResource MainCollection}}" SelectedItem="{Binding SelectedOrderStatusItem}" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="150">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Detail.name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="0" Grid.Row="4">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Catégorie d'article" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <ComboBox Text="{Binding SelectedArticleTypeForOrderItem, Mode=OneWay}" IsEditable="True" StaysOpenOnEdit="True" IsTextSearchEnabled="True" TextSearch.TextPath="Detail.name" Name="LB_ArticleTypeOrderList" ItemsSource="{Binding ArticleType, Source={StaticResource MainCollection}}" SelectedItem="{Binding SelectedArticleTypeForOrderItem}" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="150">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Detail.name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                    <ComboBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Choisir une catégorie d'article modifie la liste des articles affichée dans la liste à droite, ainsi que la liste des commandes en dessous pour correspondre à la catégorie sélectionnée.</TextBlock>
+                        </ToolTip>
+                    </ComboBox.ToolTip>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="5" Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan="2">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Description" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                <TextBox Name="TextBox_orderdescription" Text="{Binding SelectedDescriptionOrderItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinWidth="300" MinHeight="80">
+                    <TextBox.ToolTip>
+                        <ToolTip>
+                            <TextBlock>Optionnel</TextBlock>
+                        </ToolTip>
+                    </TextBox.ToolTip>
+                </TextBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="3">
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0">
+                <TextBlock Name="TextBox_messagestatusDB" Text="{Binding MessageStatusRequestToDB}" FontSize="14" Background="Green" Foreground="White"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="3" Grid.Row="7" Grid.ColumnSpan="3">
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0">
+                <TextBlock Name="TextBox_warningPointUser" Text="{Binding WarningPointUser}" FontSize="14" Background="Orange" Foreground="White"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="7" Grid.Row="7" Width="120" Height="50">
+            <Button Name="Bt_InsertOrderArticle" Content="Ajouter" Command="{Binding AddOrderArticle}"/>
+        </Grid>
+        <Grid Grid.Column="8" Grid.Row="7" Width="120" Height="50">
+            <Button Name="Bt_UpdateOrderArticle" Content="Enregistrer" Command="{Binding UpdateOrderArticle}"/>
+        </Grid>
+        <Grid Grid.Column="9" Grid.Row="7" Width="120" Height="50">
+            <Button Name="Bt_DeleteOrderArticle" Content="Supprimer" Command="{Binding DeleteOrderArticle}"/>
+        </Grid>
+        <Grid Grid.Column="8" Grid.Row="0" Width="150" Height="50">
+            <Button Name="Bt_JoinFiles" Content="Joindre fichier" Command="{Binding JoinFilesToArticle}" MinHeight="40" VerticalAlignment="Center"/>
+        </Grid>
+        <Grid Grid.Column="9" Grid.Row="0" Width="150" Height="50">
+            <Button Name="Bt_LookFiles" Content="Voir les fichiers" Command="{Binding DisplayFilesArticle}" MinHeight="40" VerticalAlignment="Center"/>
+        </Grid>
+        <Grid Grid.Column="8" Grid.Row="1" Width="120" Height="50">
+            <Button Name="Bt_ArticleFilter" Content="Filtrer" Command="{Binding ArticleFilter}" MinHeight="40" VerticalAlignment="Center"/>
+        </Grid>
+        <Grid Grid.Column="9" Grid.Row="1" Width="120" Height="50">
+            <Button Name="Bt_ResetArticleFilter" Content="Rafraîchir" Command="{Binding ResetArticleFilter}" MinHeight="40" VerticalAlignment="Center"/>
+        </Grid>
+        <Grid Grid.Column="8" Grid.Row="4" Width="120" Height="50">
+            <Button Name="Bt_OrderArticleFilter" Content="Filtrer" Command="{Binding OrderArticleFilter}" MinHeight="40" VerticalAlignment="Center"/>
+        </Grid>
+        <Grid Grid.Column="9" Grid.Row="4" Width="120" Height="50">
+            <Button Name="Bt_ResetOrderArticleFilter" Content="Rafraîchir" Command="{Binding ResetOrderArticleFilter}" MinHeight="40" VerticalAlignment="Center"/>
+        </Grid>
+    </Grid>
+</UserControl>
