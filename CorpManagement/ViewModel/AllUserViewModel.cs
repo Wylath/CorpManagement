@@ -424,7 +424,7 @@ namespace CorpManagement.ViewModel
             // Initialize timer for the messages in the window
             dtResetMessage = new DispatcherTimer();
 
-            string username = "448748066";
+            string username = "11223344";
 
             bool isAdmin = CheckIfAdminAccess(username);
             int matricule = GetLoginForApp(username);

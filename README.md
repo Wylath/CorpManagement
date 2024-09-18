@@ -37,6 +37,8 @@ password
 domain : not used
 ```
 
+You can connect to the database with 3 different ways (see DBConnect.cs in DB folder). With domain name + uid + password; or uid + password; or without uid/password, but with Windows authentication.
+
 Define the directory for save the files for each elements :
 
 ```
@@ -48,6 +50,14 @@ DirectoryFilesInsurance
 DirectoryFilesArticle
 DirectoryFilesEquipment
 ```
+
+### Warning :
+
+You need one user in the database with a 'matricule' number to start the application for the first time. By default the number is "11223344", you can change that in 'AllUserViewModel.cs' -> "username" ('ViewModel' folder). Remember to create the tables with the 'CreateDB.sql' (folder: 'sql/base'), execute the 'TDB_.sql' file (folder: sql/old) and finally 'user_example.sql'.
+
+You will have by default a user 'Toto' in your Db to start the application.
+
+In your request for user table, you will need to define idprofilelevel (1 for Admin) for the access level, the status (1:active/0:inactive user), the gradepoint (3 for 0 point) and most importantly the 'matricule' number.
 
 ## Reporting issues
 
