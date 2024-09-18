@@ -61,12 +61,12 @@ In your request for user table, you will need to define idprofilelevel (1 for Ad
 
 ## Reporting issues
 
-Issues can be reported via the [Gitlab issue tracker](https://github.com/Wylath/CorpManagement/issues).
+Issues can be reported via the [Github issue tracker](https://github.com/Wylath/CorpManagement/issues).
 
 
 ## Copyright
 
-Copyright Wylath © 2021-2022
+Copyright Wylath Â© 2021-2022
 
 
 ## Authors &amp; Contributors
