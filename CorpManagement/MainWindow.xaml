@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CorpManagement"
         mc:Ignorable="d"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-        Title="ZP Gestion" Height="1450" Width="1800" WindowStartupLocation="CenterScreen"
+        Title="Corp Management" Height="1450" Width="1800" WindowStartupLocation="CenterScreen"
         DataContext="{Binding Source={StaticResource AllUser}}">
     <Window.InputBindings>
         <KeyBinding Key="F1" Command="{Binding OpenUserList}" />

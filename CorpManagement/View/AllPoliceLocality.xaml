@@ -7,7 +7,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:dotNetKitControls="clr-namespace:DotNetKit.Windows.Controls;assembly=DotNetKit.Wpf.AutoCompleteComboBox"
         mc:Ignorable="d"
-        Title="Localité de police" Height="600" Width="800" WindowStartupLocation="CenterScreen">
+        Title="Localité" Height="600" Width="800" WindowStartupLocation="CenterScreen">
     <Grid DataContext="{Binding Source={StaticResource AllPoliceLocality}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.02*"/>

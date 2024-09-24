@@ -426,10 +426,19 @@ namespace CorpManagement.ViewModel
 
             string username = "11223344";
 
-            bool isAdmin = CheckIfAdminAccess(username);
-            int matricule = GetLoginForApp(username);
+            bool isAdmin = false;
+            int matricule = 0;
 
-            if (CurrentUser.userId == null)
+            if (int.TryParse(Environment.UserName, out matricule))
+                username = Environment.UserName;
+
+            if (!String.IsNullOrEmpty(username))
+            {
+                isAdmin = CheckIfAdminAccess(username);
+                matricule = GetLoginForApp(username);
+            }
+
+            if (CurrentUser.userId == null && matricule > 0)
             {
                 User user = null;
                 SelectedUserItem = null;

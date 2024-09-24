@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CorpManagement.View"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="ZP Gestion" Height="1450" Width="1650">
+        Title="Corp Management" Height="1450" Width="1650">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -53,7 +53,7 @@
         <Menu Grid.Column="1" Grid.Row="0" Margin="0,0,0,20">
             <MenuItem Header="_Fichier" Controls:HeaderedControlHelper.HeaderFontSize="12">
                 <MenuItem InputGestureText="F1" Command="{Binding OpenUserList}" Header="Utilisateurs" Visibility="{Binding GetVisibilityForUser}"/>
-                <MenuItem InputGestureText="F2" Command="{Binding OpenPoliceLocalityList}" Header="Localité police"  Visibility="{Binding GetVisibilityForPoliceLocality}"/>
+                <MenuItem InputGestureText="F2" Command="{Binding OpenPoliceLocalityList}" Header="Localité"  Visibility="{Binding GetVisibilityForPoliceLocality}"/>
                 <MenuItem Command="ApplicationCommands.Close"/>
             </MenuItem>
             <MenuItem Header="_Edition" Controls:HeaderedControlHelper.HeaderFontSize="12">

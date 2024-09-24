@@ -20,7 +20,7 @@ namespace CorpManagement.Toolbox
                     {
                         DataContext = new AllUserViewModel()
                     };
-                    wd.Title = "ZP Gestion : " + parameterId.lastname + " " + parameterId.firstname + ", Accès : " + parameterId.idprofilelevel.name;
+                    wd.Title = "Corp Management : " + parameterId.lastname + " " + parameterId.firstname + ", Accès : " + parameterId.idprofilelevel.name;
                     wd.Content = allview.Content;
                     break;
                 case "MainWindow":
@@ -28,7 +28,7 @@ namespace CorpManagement.Toolbox
                     {
                         DataContext = new AllUserViewModel()
                     };
-                    wd.Title = "ZP Gestion";
+                    wd.Title = "Corp Management";
                     wd.Content = main.Content;
                     break;
                 default:
